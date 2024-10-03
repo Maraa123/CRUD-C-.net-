@@ -20,8 +20,11 @@ namespace Libreta_Contactos
         private string fono;
         private string tipo;
 
+        //conectamos con sql
         SqlConnection cn = new SqlConnection("Data Source=MARA-LLORET\\MSSQLSERVER02;Initial Catalog=BD_Contactos;Integrated Security=True");
 
+
+        //constructor con parametros
         public Contactos(int id, string nombre, string correo, string fono, string tipo)
         {
             this.id = id;
@@ -33,7 +36,7 @@ namespace Libreta_Contactos
 
         public Contactos() { }
 
-
+        //constructor con 1 parametro para eliminar filas x id
         public Contactos(int id) {
             this.id = id;
         
@@ -41,13 +44,16 @@ namespace Libreta_Contactos
 
         public int AgregarContacto() {
             cn.Open();
+
             SqlCommand consulta = new SqlCommand("INSERT INTO tb_contactos VALUES (@nombre, @correo, @fono, @tipo)", cn);
+
 
             consulta.Parameters.AddWithValue("nombre", nombre);
             consulta.Parameters.AddWithValue("correo", correo);
             consulta.Parameters.AddWithValue("fono", fono);
             consulta.Parameters.AddWithValue("tipo", tipo);
 
+            //ejecuta la instruccion sql y devuelte 1 entero cuando se realizo correctamente
             int filasAfectadas = consulta.ExecuteNonQuery();
             cn.Close();
 
@@ -72,9 +78,6 @@ namespace Libreta_Contactos
             //fuente de datos sea igual que la tabla virtual
             dtg.DataSource = dt;
 
-
-        
-        
         }
 
         public int EliminarContacto() {
